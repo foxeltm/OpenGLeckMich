@@ -10,5 +10,10 @@ if (CMAKE_VERSION VERSION_GREATER 3.12)
 endif()
 
 
-target_link_libraries(OpenGLeckMich glfw)
+target_include_directories(OpenGLeckMich PRIVATE 
+    "${CMAKE_SOURCE_DIR}/vendor/glfw/include"
+    "${CMAKE_SOURCE_DIR}/vendor/glew-cmake/include"
+)
+
+target_link_libraries(OpenGLeckMich PRIVATE glfw libglew_static)
 # TODO: Add tests and install targets if needed.

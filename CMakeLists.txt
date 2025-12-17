@@ -1,18 +1,23 @@
-﻿# CMakeList.txt : Top-level CMake project file, do global configuration
-# and include sub-projects here.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required (VERSION 3.8)
 
-# Enable Hot Reload for MSVC compilers if supported.
+# 1. Projekt-Definition
+project ("OpenGLeckMich")
+
+# 2. MSVC Hot Reload Policy (Optional, aber gut platziert)
 if (POLICY CMP0141)
   cmake_policy(SET CMP0141 NEW)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-project ("OpenGLeckMich")
+# 3. Globale Pfad-Einstellungen
+# Hinweis: Nutze ${...} statt $(...). CMake setzt Build-Files standardmäßig in den "Build"-Ordner.
+# Wenn du die .exe unbedingt im /out Ordner haben willst:
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/out")
+set(CMAKE_LIBRARY_OUTPUT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/out")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/out")
 
-# Include sub-projects.
-add_subdirectory ("OpenGLeckMich")
+# 4. Sub-Projekte hinzufügen
+# WICHTIG: Die Bibliotheken (vendor) zuerst, damit dein Hauptprojekt sie kennt.
 add_subdirectory("vendor/glfw")
-
-target_include_directories(OpenGLeckMich PRIVATE "vendor/glfw/include")
+add_subdirectory("vendor/glew-cmake")
+add_subdirectory("OpenGLeckMich")
