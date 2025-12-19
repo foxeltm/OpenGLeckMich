@@ -41,6 +41,7 @@ int main(void)
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+    //ich bin so cool
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
