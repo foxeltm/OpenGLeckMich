@@ -2,6 +2,9 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <cstdint>
+#include <fstream>
+#include <string>
+#include <sstream>
 
 typedef uint8_t u8;
 typedef uint16_t u16;
@@ -12,6 +15,42 @@ typedef int8_t i8;
 typedef int16_t i16;
 typedef int32_t i32;
 typedef int64_t i64;
+
+
+struct ShaderProgramSources
+{
+    std::string VertexSource;
+    std::string FragmentSource;
+};
+
+static ShaderProgramSources ParseShader(const std::string& filepath)
+{
+    std::ifstream stream(filepath);
+
+    enum class ShaderType
+    {
+        NONE = -1, VERTEX = 0, FRAGMENT = 1
+    };
+
+    std::string line;
+    std::stringstream ss[2];
+    ShaderType type = ShaderType::NONE;
+    while (getline(stream, line))
+    {
+        if (line.find("#shader") != std::string::npos)
+        {
+            if (line.find("vertex") != std::string::npos)
+                type = ShaderType::VERTEX;
+            else if (line.find("fragment") != std::string::npos)
+                type = ShaderType::FRAGMENT;
+        }
+        else
+        {
+            ss[(int)type] << line << '\n';
+        }
+    }
+    return { ss[0].str(), ss[1].str() };
+}
 
 static u32 CompileShader(const std::string& source, u32 type)
 {
@@ -62,8 +101,8 @@ int main(void)
     /* Initialize the library */
     if (!glfwInit())
         return -1;
-    
-    
+
+
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(640, 480, "Triangle", NULL, NULL);
     if (!window)
@@ -94,26 +133,9 @@ int main(void)
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    std::string vertexShader =
-        "#version 330 core\n"
-        "\n"
-        "layout(location = 0) in vec4 position;"
-        "\n"
-        "void main()\n"
-        "{\n"
-        "   gl_Position = position;\n"
-        "}\n";
 
-    std::string fragmentShader =
-        "#version 330 core\n"
-        "\n"
-        "layout(location = 0) out vec4 color;"
-        "\n"
-        "void main()\n"
-        "{\n"
-        "   color = vec4(1.0, 0.0, 1.0, 1.0);\n"
-        "}\n";
-    u32 shader = CreateShader(vertexShader, fragmentShader);
+    ShaderProgramSources source = ParseShader("res/shaders/Basic.Shader");
+    u32 shader = CreateShader(source.VertexSource, source.FragmentSource);
     glUseProgram(shader);
 
     //ich bin so cool
@@ -131,6 +153,8 @@ int main(void)
         /* Poll for and process events */
         glfwPollEvents();
     }
+
+    glDeleteProgram(shader);
 
     glfwTerminate();
     return 0;

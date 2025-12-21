@@ -21,3 +21,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/out")
 add_subdirectory("vendor/glfw")
 add_subdirectory("vendor/glew-cmake")
 add_subdirectory("OpenGLeckMich")
+
+add_custom_target(copy_ref ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_SOURCE_DIR}/ref
+            ${CMAKE_BINARY_DIR}/ref
+)
