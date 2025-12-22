@@ -117,19 +117,17 @@ int main(void)
     if (glewInit() != GLEW_OK)
         std::cout << "ERROR! " << std::endl;
 
-    float positions[18] = {
-        -0.5f, -0.5f, //links unten 
-         0.5f, -0.5f, //rechtunten 
-         0.5f,  0.5f, // rechts oben 
+    float positions[9] = {
+        -0.5f, -0.5f, //0
+         0.5f, -0.5f, //1
+         0.5f,  0.5f, //2
+        -0.5f,  0.5f  //3
+    };
 
-         0.5f,  0.5f, //rechts oben
-        -0.5f,  0.5f, //links oben 
-        -0.5f, -0.5f,  //links unten
-
-        -0.5f,  0.5f,
-         0.5f,  0.5f,
-         0.0f,  0.9f
-
+    u32 indicies[] =
+    {
+        0, 1, 2,
+        2, 3, 0
     };
 
     u32 buffer;
@@ -139,6 +137,11 @@ int main(void)
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+
+    u32 ibo;
+    glGenBuffers(1, &ibo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicies), indicies, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -154,7 +157,7 @@ int main(void)
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glDrawArrays(GL_TRIANGLES, 0, 9);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
