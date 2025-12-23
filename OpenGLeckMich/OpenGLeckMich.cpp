@@ -126,7 +126,7 @@ int main(void)
 
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Triangle", NULL, NULL);
+    window = glfwCreateWindow(640, 640, "Triangle", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -136,10 +136,12 @@ int main(void)
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
+    glfwSwapInterval(2);
+
     if (glewInit() != GLEW_OK)
         std::cout << "ERROR! " << std::endl;
 
-    float positions[9] = {
+    float positions[8] = {
         -0.5f, -0.5f, //0
          0.5f, -0.5f, //1
          0.5f,  0.5f, //2
@@ -168,10 +170,16 @@ int main(void)
     GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 
 
-    ShaderProgramSources source = ParseShader("res/shaders/Basic.Shader");
+    ShaderProgramSources source = ParseShader("../OpenGLeckMich/res/shaders/Basic.Shader");
     u32 shader = CreateShader(source.VertexSource, source.FragmentSource);
     GLCall(glUseProgram(shader));
 
+    GLCall(int location = glGetUniformLocation(shader, "u_Color"));
+    ASSERT(location != -1)
+    GLCall(glUniform4f(location, 0.616f, 0.0f, 1.0f, 1.0f));
+
+    float r = 0.0f;
+    float increment = 0.05f;
     //ich bin so cool
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -179,7 +187,19 @@ int main(void)
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        GLCall(glDrawElements(GL_TRIANGLES, 6, GL_INT, nullptr));
+        GLCall(glUniform4f(location, r, 0.0f, 1.0f, 1.0f));
+        GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+
+        if (r > 1.0f)
+        {
+            increment = -0.5f;
+        }
+        else if (r < 0.0f)
+        {
+            increment = 0.05f;
+        }
+
+        r += increment;
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
