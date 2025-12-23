@@ -136,7 +136,7 @@ int main(void)
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
-    glfwSwapInterval(2);
+    glfwSwapInterval(3);
 
     if (glewInit() != GLEW_OK)
         std::cout << "ERROR! " << std::endl;
@@ -179,7 +179,15 @@ int main(void)
     GLCall(glUniform4f(location, 0.616f, 0.0f, 1.0f, 1.0f));
 
     float r = 0.0f;
-    float increment = 0.05f;
+    float incrementR = 0.05f;
+
+    float g = 0.0f;
+    float incrementG = 0.05f;
+
+    float b = 0.0f;
+    float incrementB = 0.05f;
+
+
     //ich bin so cool
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -187,19 +195,32 @@ int main(void)
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        GLCall(glUniform4f(location, r, 0.0f, 1.0f, 1.0f));
+        GLCall(glUniform4f(location, r, g, b, 1.0f));
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
         if (r > 1.0f)
-        {
-            increment = -0.5f;
-        }
+            incrementR = -0.05f;
         else if (r < 0.0f)
-        {
-            increment = 0.05f;
-        }
+            incrementR = 0.06f;
 
-        r += increment;
+        r += incrementR;
+
+        if (g > 1.0f)
+            incrementG = -0.04f;
+        else if (g < 0.0f)
+            incrementG = 0.07f;
+
+        g += incrementG;
+
+        if (b > 1.0f)
+            incrementB = -0.01f;
+        else if (b < 0.0f)
+            incrementB = 0.02f;
+
+        b += incrementB;
+
+
+       
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
