@@ -136,7 +136,7 @@ int main(void)
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
-    glfwSwapInterval(3);
+    glfwSwapInterval(2);
 
     if (glewInit() != GLEW_OK)
         std::cout << "ERROR! " << std::endl;
@@ -176,48 +176,28 @@ int main(void)
 
     GLCall(int location = glGetUniformLocation(shader, "u_Color"));
     ASSERT(location != -1)
-    GLCall(glUniform4f(location, 0.616f, 0.0f, 1.0f, 1.0f));
-
-    float r = 0.0f;
-    float incrementR = 0.05f;
+    GLCall(glUniform4f(location, 1.0f, 0.0f, 0.0f, 1.0f));
 
     float g = 0.0f;
     float incrementG = 0.05f;
 
-    float b = 0.0f;
-    float incrementB = 0.05f;
 
-
-    //ich bin so cool
+    //ich bin so cool ho ho ho ho weinachten
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        GLCall(glUniform4f(location, r, g, b, 1.0f));
+        GLCall(glUniform4f(location, 1.0f, g, 0.0, 1.0f));
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
-        if (r > 1.0f)
-            incrementR = -0.05f;
-        else if (r < 0.0f)
-            incrementR = 0.06f;
-
-        r += incrementR;
-
         if (g > 1.0f)
-            incrementG = -0.04f;
+            incrementG = -0.05f;
         else if (g < 0.0f)
-            incrementG = 0.07f;
+            incrementG = 0.06f;
 
         g += incrementG;
-
-        if (b > 1.0f)
-            incrementB = -0.01f;
-        else if (b < 0.0f)
-            incrementB = 0.02f;
-
-        b += incrementB;
 
 
        
