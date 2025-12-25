@@ -192,6 +192,7 @@ int main(void)
         GLCall(glUniform4f(location, 1.0f, g, 0.0, 1.0f));
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
+        //gruen
         if (g > 1.0f)
             incrementG = -0.05f;
         else if (g < 0.0f)
