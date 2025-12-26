@@ -200,9 +200,6 @@ int main(void)
 
         g += incrementG;
 
-
-       
-
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 
