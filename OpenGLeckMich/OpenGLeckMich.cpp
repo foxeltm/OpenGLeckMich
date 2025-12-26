@@ -182,7 +182,7 @@ int main(void)
     float incrementG = 0.05f;
 
 
-    //ich bin so cool ho ho ho ho weinachten
+	//ich bin so cool ho ho ho ho weinachten lol xd
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
