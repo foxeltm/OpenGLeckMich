@@ -124,6 +124,10 @@ int main(void)
     if (!glfwInit())
         return -1;
 
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(640, 640, "Triangle", NULL, NULL);
@@ -136,7 +140,7 @@ int main(void)
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
-    glfwSwapInterval(2);
+    glfwSwapInterval(3);
 
     if (glewInit() != GLEW_OK)
         std::cout << "ERROR! " << std::endl;
@@ -154,8 +158,11 @@ int main(void)
         2, 3, 0
     };
 
+    u32 vao;
+    GLCall(glGenVertexArrays(1, &vao));
+    GLCall(glBindVertexArray(vao));
+
     u32 buffer;
-    GLCall(glGenBuffers(1, &buffer));
     GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
     GLCall(glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW));
 
@@ -176,29 +183,64 @@ int main(void)
 
     GLCall(int location = glGetUniformLocation(shader, "u_Color"));
     ASSERT(location != -1)
-    GLCall(glUniform4f(location, 1.0f, 0.0f, 0.0f, 1.0f));
+    GLCall(glUniform4f(location, 0.616f, 0.0f, 1.0f, 1.0f));
 
+    GLCall(glBindVertexArray(0));
+    GLCall(glUseProgram(0));
+    GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+
+    //red
+    float r = 0.0f;
+    float incrementR = 0.05f;
+
+    //green
     float g = 0.0f;
     float incrementG = 0.05f;
 
+    //blue
+    float b = 0.0f;
+    float incrementB = 0.05f;
 
-	//ich bin so cool ho ho ho ho weinachten lol xd
+
+    //ich bin so cool
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        GLCall(glUniform4f(location, 1.0f, g, 0.0, 1.0f));
+        GLCall(glUseProgram(shader));
+        GLCall(glUniform4f(location, r, g, b, 1.0f));
+
+        GLCall(glBindVertexArray(vao));
+        GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
+
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
-        //gruen
+        if (r > 1.0f)
+            incrementR = -0.05f;
+        else if (r < 0.0f)
+            incrementR = 0.06f;
+
+        r += incrementR;
+
         if (g > 1.0f)
-            incrementG = -0.05f;
+            incrementG = -0.04f;
         else if (g < 0.0f)
-            incrementG = 0.06f;
+            incrementG = 0.07f;
 
         g += incrementG;
+
+        if (b > 1.0f)
+            incrementB = -0.01f;
+        else if (b < 0.0f)
+            incrementB = 0.02f;
+
+        b += incrementB;
+
+
+       
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
