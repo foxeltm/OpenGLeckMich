@@ -168,6 +168,7 @@ int main(void)
         GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
         GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 
+        //cool oder??
         //red
         float r = 0.0f;
         float incrementR = 0.05f;
