@@ -6,11 +6,11 @@
 #include <string>
 #include <sstream>
 #include <cassert>
+#include "src/renderer.h"
+#include "src/VertexBuffer.h"
+#include "src/IndexBuffer.h"
 
-#define ASSERT(x) if (!(x)) __debugbreak();
-#define GLCall(x) GLClearError();\
-    x;\
-    ASSERT(GLLogCall(#x, __FILE__, __LINE__))
+
 
 typedef uint8_t u8;
 typedef uint16_t u16;
@@ -22,22 +22,6 @@ typedef int16_t i16;
 typedef int32_t i32;
 typedef int64_t i64;
 
-
-static void GLClearError()
-{
-    while (glGetError() != GL_NO_ERROR);
-}
-
-static bool GLLogCall(const char* function, const char* file, int line)
-{
-    while (GLenum error = glGetError())
-    {
-        std::cout << "[OpenGL Error] (" << error << ")" << function <<
-            "" << file << ":" << line << std::endl;
-        return false;
-    }
-    return true;
-}
 
 struct ShaderProgramSources
 {
@@ -144,113 +128,107 @@ int main(void)
 
     if (glewInit() != GLEW_OK)
         std::cout << "ERROR! " << std::endl;
-
-    float positions[8] = {
-        -0.5f, -0.5f, //0
-         0.5f, -0.5f, //1
-         0.5f,  0.5f, //2
-        -0.5f,  0.5f  //3
-    };
-
-    u32 indicies[] =
     {
-        0, 1, 2,
-        2, 3, 0
-    };
+        float positions[8] = {
+            -0.5f, -0.5f, //0
+             0.5f, -0.5f, //1
+             0.5f,  0.5f, //2
+            -0.5f,  0.5f  //3
+        };
 
-    u32 vao;
-    GLCall(glGenVertexArrays(1, &vao));
-    GLCall(glBindVertexArray(vao));
+        u32 indicies[] =
+        {
+            0, 1, 2,
+            2, 3, 0
+        };
 
-    u32 buffer;
-    GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
-    GLCall(glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW));
-
-    GLCall(glEnableVertexAttribArray(0));
-    GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
-
-    u32 ibo;
-    GLCall(glGenBuffers(1, &ibo));
-    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
-    GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicies), indicies, GL_STATIC_DRAW));
-
-    GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
-
-
-    ShaderProgramSources source = ParseShader("../OpenGLeckMich/res/shaders/Basic.Shader");
-    u32 shader = CreateShader(source.VertexSource, source.FragmentSource);
-    GLCall(glUseProgram(shader));
-
-    GLCall(int location = glGetUniformLocation(shader, "u_Color"));
-    ASSERT(location != -1)
-    GLCall(glUniform4f(location, 0.616f, 0.0f, 1.0f, 1.0f));
-
-    GLCall(glBindVertexArray(0));
-    GLCall(glUseProgram(0));
-    GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
-    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
-
-    //red
-    float r = 0.0f;
-    float incrementR = 0.05f;
-
-    //green
-    float g = 0.0f;
-    float incrementG = 0.05f;
-
-    //blue
-    float b = 0.0f;
-    float incrementB = 0.05f;
-
-
-    //ich bin so cool
-    /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
-    {
-        /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        GLCall(glUseProgram(shader));
-        GLCall(glUniform4f(location, r, g, b, 1.0f));
-
+        u32 vao;
+        GLCall(glGenVertexArrays(1, &vao));
         GLCall(glBindVertexArray(vao));
-        GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
-
-        GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
-
-        if (r > 1.0f)
-            incrementR = -0.05f;
-        else if (r < 0.0f)
-            incrementR = 0.06f;
-
-        r += incrementR;
-
-        if (g > 1.0f)
-            incrementG = -0.04f;
-        else if (g < 0.0f)
-            incrementG = 0.07f;
-
-        g += incrementG;
-
-        if (b > 1.0f)
-            incrementB = -0.01f;
-        else if (b < 0.0f)
-            incrementB = 0.02f;
-
-        b += incrementB;
 
 
-       
+        VertexBuffer vb(positions, sizeof(positions));
 
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
+        GLCall(glEnableVertexAttribArray(0));
+        GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
 
-        /* Poll for and process events */
-        glfwPollEvents();
+
+        IndexBuffer ib(indicies, 6);
+
+        ShaderProgramSources source = ParseShader("../OpenGLeckMich/res/shaders/Basic.Shader");
+        u32 shader = CreateShader(source.VertexSource, source.FragmentSource);
+        GLCall(glUseProgram(shader));
+
+        GLCall(int location = glGetUniformLocation(shader, "u_Color"));
+        ASSERT(location != -1)
+            GLCall(glUniform4f(location, 0.616f, 0.0f, 1.0f, 1.0f));
+
+        GLCall(glBindVertexArray(0));
+        GLCall(glUseProgram(0));
+        GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+        GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+
+        //red
+        float r = 0.0f;
+        float incrementR = 0.05f;
+
+        //green
+        float g = 0.0f;
+        float incrementG = 0.05f;
+
+        //blue
+        float b = 0.0f;
+        float incrementB = 0.05f;
+
+
+        //ich bin so cool
+        /* Loop until the user closes the window */
+        while (!glfwWindowShouldClose(window))
+        {
+            /* Render here */
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            GLCall(glUseProgram(shader));
+            GLCall(glUniform4f(location, r, g, b, 1.0f));
+
+            GLCall(glBindVertexArray(vao));
+            ib.Bind();
+
+            GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+
+            if (r > 1.0f)
+                incrementR = -0.05f;
+            else if (r < 0.0f)
+                incrementR = 0.06f;
+
+            r += incrementR;
+
+            if (g > 1.0f)
+                incrementG = -0.04f;
+            else if (g < 0.0f)
+                incrementG = 0.07f;
+
+            g += incrementG;
+
+            if (b > 1.0f)
+                incrementB = -0.01f;
+            else if (b < 0.0f)
+                incrementB = 0.02f;
+
+            b += incrementB;
+
+
+
+
+            /* Swap front and back buffers */
+            glfwSwapBuffers(window);
+
+            /* Poll for and process events */
+            glfwPollEvents();
+        }
+
+        glDeleteProgram(shader);
     }
-
-    glDeleteProgram(shader);
-
     glfwTerminate();
     return 0;
 }

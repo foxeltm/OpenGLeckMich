@@ -3,7 +3,14 @@
 #
 
 # Add source to this project's executable.
-add_executable (OpenGLeckMich "OpenGLeckMich.cpp"  )
+add_executable (OpenGLeckMich 
+"OpenGLeckMich.cpp"   
+"src/renderer.h" 
+"src/renderer.cpp" 
+"src/VertexBuffer.h" 
+"src/VertexBuffer.cpp" 
+"src/IndexBuffer.h" 
+"src/IndexBuffer.cpp") 
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET OpenGLeckMich PROPERTY CXX_STANDARD 20)
