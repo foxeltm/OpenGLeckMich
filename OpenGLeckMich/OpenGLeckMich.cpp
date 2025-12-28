@@ -196,6 +196,7 @@ int main(void)
 
             GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
+            //red
             if (r > 1.0f)
                 incrementR = -0.05f;
             else if (r < 0.0f)
@@ -203,6 +204,7 @@ int main(void)
 
             r += incrementR;
 
+            //green
             if (g > 1.0f)
                 incrementG = -0.04f;
             else if (g < 0.0f)
@@ -210,6 +212,7 @@ int main(void)
 
             g += incrementG;
 
+            //blue
             if (b > 1.0f)
                 incrementB = -0.01f;
             else if (b < 0.0f)
