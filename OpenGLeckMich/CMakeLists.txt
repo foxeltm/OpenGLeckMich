@@ -14,7 +14,7 @@ add_executable (OpenGLeckMich
 "src/VertexBufferLayout.h"
 "src/VertexArray.h"
 "src/VertexArray.cpp"
-)
+ "src/Shader.h" "src/Shader.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET OpenGLeckMich PROPERTY CXX_STANDARD 20)
