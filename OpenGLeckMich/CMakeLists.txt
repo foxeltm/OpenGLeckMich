@@ -14,7 +14,10 @@ add_executable (OpenGLeckMich
 "src/VertexBufferLayout.h"
 "src/VertexArray.h"
 "src/VertexArray.cpp"
- "src/Shader.h" "src/Shader.cpp")
+"src/Shader.h" 
+"src/Shader.cpp" 
+"src/Texture.h" 
+"src/Texture.cpp" "src/stb_image.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET OpenGLeckMich PROPERTY CXX_STANDARD 20)
@@ -27,4 +30,9 @@ target_include_directories(OpenGLeckMich PRIVATE
 )
 
 target_link_libraries(OpenGLeckMich PRIVATE glfw libglew_static)
+
+set_target_properties(OpenGLeckMich PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+)
 # TODO: Add tests and install targets if needed.

@@ -27,3 +27,5 @@ add_custom_target(copy_ref ALL
             ${CMAKE_SOURCE_DIR}/ref
             ${CMAKE_BINARY_DIR}/ref
 )
+
+target_include_directories(OpenGLeckMich PRIVATE ${CMAKE_SOURCE_DIR}/vendor/stb_image)
