@@ -53,6 +53,8 @@ ShaderProgramSources Shader::ParseShader(const std::string& filepath)
 
 unsigned int Shader::CompileShader(const std::string& source, unsigned int type)
 {
+
+    std::cout << "Start Compiling Shader\n";
     GLCall(unsigned int id = glCreateShader(type));
     GLCall(const char* src = source.c_str());
     GLCall(glShaderSource(id, 1, &src, nullptr));
@@ -72,6 +74,7 @@ unsigned int Shader::CompileShader(const std::string& source, unsigned int type)
         glDeleteShader(id);
         return 0;
     }
+    std::cout << "Finish Compiling Shader\n";
 
     return id;
 }

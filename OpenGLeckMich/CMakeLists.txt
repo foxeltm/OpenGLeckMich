@@ -31,8 +31,4 @@ target_include_directories(OpenGLeckMich PRIVATE
 
 target_link_libraries(OpenGLeckMich PRIVATE glfw libglew_static)
 
-set_target_properties(OpenGLeckMich PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
-    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-)
 # TODO: Add tests and install targets if needed.
