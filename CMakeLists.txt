@@ -20,6 +20,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/out")
 # WICHTIG: Die Bibliotheken (vendor) zuerst, damit dein Hauptprojekt sie kennt.
 add_subdirectory("vendor/glfw")
 add_subdirectory("vendor/glew-cmake")
+add_subdirectory("vendor/glm")
 add_subdirectory("OpenGLeckMich")
 
 add_custom_target(copy_ref ALL
@@ -29,3 +30,6 @@ add_custom_target(copy_ref ALL
 )
 
 target_include_directories(OpenGLeckMich PRIVATE ${CMAKE_SOURCE_DIR}/vendor/stb_image)
+target_include_directories(OpenGLeckMich PRIVATE ${CMAKE_SOURCE_DIR}/vendor/glm)
+
+#include <glm/glm.hpp>

@@ -16,7 +16,8 @@
 #include "src/VertexBufferLayout.h"
 #include "src/Texture.h"
 
-
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 typedef uint8_t u8;
 typedef uint16_t u16;
@@ -42,7 +43,7 @@ int main(void)
 
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 640, "Square", NULL, NULL);
+    window = glfwCreateWindow(640, 480, "Square", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -84,10 +85,12 @@ int main(void)
 
         IndexBuffer ib(indicies, 6);
 
+		glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
 
         Shader shader("../OpenGLeckMich/res/shaders/Basic.Shader");
 		shader.Bind();
 		shader.SetUniform4f("u_Color", 0.616f, 0.0f, 1.0f, 1.0f);
+		shader.SetUniformMat4f("u_MVP", proj);
 
 		Texture texture("res/textures/terraria.png");
 		texture.Bind();
