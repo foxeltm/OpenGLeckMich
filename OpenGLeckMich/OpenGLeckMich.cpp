@@ -52,7 +52,7 @@ int main(void)
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
-    glfwSwapInterval(3);
+	glfwSwapInterval(3);
 
     if (glewInit() != GLEW_OK)
         std::cout << "ERROR! " << std::endl;
@@ -70,9 +70,9 @@ int main(void)
             2, 3, 0
         };
 
-
+        GLCall(glEnable(GL_BLEND));
 		GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-		GLCall(glEnable(GL_BLEND));
+		
 
 		VertexArray va;
         VertexBuffer vb(positions, sizeof(positions));
