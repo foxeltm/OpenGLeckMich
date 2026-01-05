@@ -95,6 +95,7 @@ int main(void)
 		Texture texture("res/textures/terraria.png");
 		texture.Bind();
         shader.SetUniform1i("u_Texture", 0);
+		//papa ist hier
 
 		va.Unbind();
 		vb.Unbind();
