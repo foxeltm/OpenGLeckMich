@@ -83,6 +83,7 @@ int main(void)
 		layout.Push<float>(2);
 		va.AddBuffer(vb, layout);
         //cool
+        //cooler
 
         IndexBuffer ib(indicies, 6);
 
