@@ -82,7 +82,7 @@ int main(void)
 		layout.Push<float>(2);
 		layout.Push<float>(2);
 		va.AddBuffer(vb, layout);
-        //cool
+        //cool ist marvin 
         //cooler
 
         IndexBuffer ib(indicies, 6);
