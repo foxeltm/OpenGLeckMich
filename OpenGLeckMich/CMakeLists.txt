@@ -31,4 +31,21 @@ target_include_directories(OpenGLeckMich PRIVATE
 
 target_link_libraries(OpenGLeckMich PRIVATE glfw libglew_static)
 
+
+set(IMGUI_SRC
+    ${CMAKE_SOURCE_DIR}/vendor/imgui/imgui.cpp
+    ${CMAKE_SOURCE_DIR}/vendor/imgui/imgui_draw.cpp
+    ${CMAKE_SOURCE_DIR}/vendor/imgui/imgui_widgets.cpp
+    ${CMAKE_SOURCE_DIR}/vendor/imgui/imgui_tables.cpp
+    ${CMAKE_SOURCE_DIR}/vendor/imgui/imgui_demo.cpp
+    ${CMAKE_SOURCE_DIR}/vendor/imgui/backends/imgui_impl_glfw.cpp
+    ${CMAKE_SOURCE_DIR}/vendor/imgui/backends/imgui_impl_opengl3.cpp
+)
+
+target_sources(OpenGLeckMich PRIVATE ${IMGUI_SRC})
+
+target_include_directories(OpenGLeckMich PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/
+    ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/backends
+)
 # TODO: Add tests and install targets if needed.

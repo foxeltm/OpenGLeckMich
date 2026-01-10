@@ -23,6 +23,7 @@ add_subdirectory("vendor/glew-cmake")
 add_subdirectory("vendor/glm")
 add_subdirectory("OpenGLeckMich")
 
+
 add_custom_target(copy_ref ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_SOURCE_DIR}/ref
@@ -31,5 +32,7 @@ add_custom_target(copy_ref ALL
 
 target_include_directories(OpenGLeckMich PRIVATE ${CMAKE_SOURCE_DIR}/vendor/stb_image)
 target_include_directories(OpenGLeckMich PRIVATE ${CMAKE_SOURCE_DIR}/vendor/glm)
+target_include_directories(OpenGLeckMich PRIVATE ${CMAKE_SOURCE_DIR}/vendor/glfw/include)
+target_include_directories(OpenGLeckMich PRIVATE ${CMAKE_SOURCE_DIR}/vendor/imgui)
 
 #include <glm/glm.hpp>
