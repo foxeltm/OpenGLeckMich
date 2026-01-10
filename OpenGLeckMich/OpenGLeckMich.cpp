@@ -149,7 +149,7 @@ int main(void)
             
             {
                 ImGui::SliderFloat3("Translation", &translation.x, 0.0f, 960.0f);
-				//ImGui::Text("counter = %d", counter);
+				//ImGui::Text("counter = %d", counter); lol 
 
             }
            
