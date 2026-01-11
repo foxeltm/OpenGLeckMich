@@ -19,6 +19,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "imgui.h"
+#include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_opengl3.h"
+
 typedef uint8_t u8;
 typedef uint16_t u16;
 typedef uint32_t u32;
@@ -28,6 +32,10 @@ typedef int8_t i8;
 typedef int16_t i16;
 typedef int32_t i32;
 typedef int64_t i64;
+
+bool show_demo_window = true;
+bool show_another_window = false;
+ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 int main(void)
 {
@@ -110,6 +118,11 @@ int main(void)
 
 		Renderer renderer;
 
+		ImGui::CreateContext();
+		ImGui_ImplGlfw_InitForOpenGL(window, true);
+        ImGui_ImplOpenGL3_Init("#version 330");
+		ImGui::StyleColorsDark();
+
         //red
         float r = 0.0f;
         float incrementR = 0.05f;
@@ -118,6 +131,10 @@ int main(void)
         {
             /* Render here */
 			renderer.Clear();
+
+            ImGui_ImplOpenGL3_NewFrame();
+			ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
 
             shader.Bind();
             shader.SetUniform4f("u_Color", r, 0.0f, 1.0f, 1.0f);
@@ -131,6 +148,36 @@ int main(void)
 
             r += incrementR;
 
+            
+            {
+                static float f = 0.0f;
+                static int counter = 0;
+
+                ImGui::Begin("Hello, world!"); // <-- REQUIRED
+
+                ImGui::Text("Hello, world!");
+                ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+                ImGui::ColorEdit3("clear color", (float*)&clear_color);
+                ImGui::Checkbox("Demo Window", &show_demo_window);
+                ImGui::Checkbox("Another Window", &show_another_window);
+
+                if (ImGui::Button("Button"))
+                    counter++;
+
+                ImGui::SameLine();
+                ImGui::Text("counter = %d", counter);
+
+				ImGui::SameLine();
+				ImGui::Text("counter = %d", counter);
+
+                ImGui::End();
+
+            }
+           
+
+			ImGui::Render();
+			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
 
@@ -138,6 +185,10 @@ int main(void)
             glfwPollEvents();
         }
     }
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+
     glfwTerminate();
     return 0;
 }

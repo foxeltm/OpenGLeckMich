@@ -17,7 +17,9 @@ add_executable (OpenGLeckMich
 "src/Shader.h" 
 "src/Shader.cpp" 
 "src/Texture.h" 
-"src/Texture.cpp" "src/stb_image.cpp")
+"src/Texture.cpp"
+"src/stb_image.cpp"
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET OpenGLeckMich PROPERTY CXX_STANDARD 20)
