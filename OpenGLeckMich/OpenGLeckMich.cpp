@@ -15,6 +15,7 @@
 #include "src/shader.h"
 #include "src/VertexBufferLayout.h"
 #include "src/Texture.h"
+//#include "src/renderer.cpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
