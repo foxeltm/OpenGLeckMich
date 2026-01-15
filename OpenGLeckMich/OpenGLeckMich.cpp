@@ -168,10 +168,9 @@ int main(void)
                 ImGui::SliderFloat3("Translation B", &translationB.x, 0.0f, 960.0f);
 
 				//ImGui::Text("counter = %d", counter); lol 
-
             }
            
-
+            //ImGui 
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
