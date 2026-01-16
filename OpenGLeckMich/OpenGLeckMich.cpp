@@ -61,7 +61,8 @@ int main(void)
 	glfwSwapInterval(3);
 
     if (glewInit() != GLEW_OK)
-        std::cout << "ERROR! " << std::endl;
+        std::cout << "ERROR! " << std::endl; 
+	//glewExperimental = GL_TRUE;
     {
         float positions[16] = {
             -50.0f, -50.0f, 0.0f, 0.0f,//0
