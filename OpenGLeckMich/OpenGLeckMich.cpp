@@ -170,7 +170,7 @@ int main(void)
 				//ImGui::Text("counter = %d", counter); lol 
             }
            
-            //ImGui 
+            //ImGui cool
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
