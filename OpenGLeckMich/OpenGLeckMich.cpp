@@ -62,7 +62,7 @@ int main(void)
 
     if (glewInit() != GLEW_OK)
         std::cout << "ERROR! " << std::endl; 
-	//glewExperimental = GL_TRUE; cool
+	//glewExperimental = GL_TRUE; cooler
 
     {
         float positions[16] = {
