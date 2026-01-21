@@ -1,4 +1,5 @@
-﻿#include <GL/glew.h>
+﻿//alle #include hier reinpacken
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include <iostream>
