@@ -19,7 +19,7 @@ add_executable (OpenGLeckMich
 "src/Texture.h" 
 "src/Texture.cpp"
 "src/stb_image.cpp"
-)
+ "src/Test/TestClearColor.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET OpenGLeckMich PROPERTY CXX_STANDARD 20)
@@ -49,5 +49,7 @@ target_sources(OpenGLeckMich PRIVATE ${IMGUI_SRC})
 target_include_directories(OpenGLeckMich PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/backends
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+
 )
 # TODO: Add tests and install targets if needed.
